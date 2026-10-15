@@ -1,0 +1,28 @@
+name: Cleanup Release Assets
+
+on:
+  push:
+    tags:
+      - 'release-trigger*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete non-canonical assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: 43aquarius/NaiWa-iDUT
+        run: |
+          keep="iDaGong_NaiWa_v1.0.apk animation-preview.jpg icon-preview.png"
+          ids=$(gh api "repos/$REPO/releases/tags/naiwa-v1.0" --jq '.assets[] | select(.name as $n | ["iDaGong_NaiWa_v1.0.apk","animation-preview.jpg","icon-preview.png"] | index($n) | not) | .id')
+          echo "asset ids to delete: $ids"
+          for id in $ids; do
+            gh api -X DELETE "repos/$REPO/releases/assets/$id" && echo "deleted $id"
+          done
+          echo "remaining:"
+          gh api "repos/$REPO/releases/tags/naiwa-v1.0" --jq '.assets[].name'
