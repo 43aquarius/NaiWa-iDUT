@@ -28,20 +28,20 @@ jobs:
         run: |
           set -e
           # ASCII-safe copy of the APK (GitHub asset names get mangled for non-ASCII)
-          cp "i大工_奶蛙版_3.3.12.apk" iDaGong_NaiWa_v1.0.apk
-          # release tag naiwa-v1.0 already exists in the repo
-          gh release create "naiwa-v1.0" \
-            --title "奶蛙 i大工 v1.0 —— 奶龙护送版" \
+          cp "i大工_奶蛙版_3.3.12.apk" iDaGong_NaiWa_v2.0.apk
+          # v2.0 release tag
+          gh release create "naiwa-v2.0" \
+            --title "奶蛙 i大工 v2.0 —— 奶龙护送版（修复启动动画/主背景/配色）" \
             --notes-file RELEASE_NOTES.md \
-            "iDaGong_NaiWa_v1.0.apk" \
+            "iDaGong_NaiWa_v2.0.apk" \
             "theme/preview_sheet.jpg#animation-preview.jpg" \
             "theme/icons/ic_app_launcher.png#icon-preview.png" 2>/dev/null || {
-            # release exists: clean mangled/old assets then re-upload
-            gh release view "naiwa-v1.0" --json assets --jq '.[].name' | while read -r a; do
-              gh release delete-asset "naiwa-v1.0" "$a" -y || true
+            # release exists: clean old assets then re-upload
+            gh release view "naiwa-v2.0" --json assets --jq '.[].name' | while read -r a; do
+              gh release delete-asset "naiwa-v2.0" "$a" -y || true
             done
-            gh release upload "naiwa-v1.0" \
-              "iDaGong_NaiWa_v1.0.apk" \
+            gh release upload "naiwa-v2.0" \
+              "iDaGong_NaiWa_v2.0.apk" \
               "theme/preview_sheet.jpg#animation-preview.jpg" \
               "theme/icons/ic_app_launcher.png#icon-preview.png" --clobber
           }
