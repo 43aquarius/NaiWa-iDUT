@@ -1,0 +1,40 @@
+name: Release NaiWa APK
+
+on:
+  push:
+    tags:
+      - 'naiwa-v*'
+      - 'release-trigger*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute checksum
+        run: |
+          sha256sum "i大工_奶蛙版_3.3.12.apk" | tee APK_SHA256.txt
+          cat APK_SHA256.txt >> RELEASE_NOTES.md
+
+      - name: Create release and upload APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          # release tag naiwa-v1.0 already exists in the repo
+          gh release create "naiwa-v1.0" \
+            --title "奶蛙 i大工 v1.0 —— 奶龙护送版" \
+            --notes-file RELEASE_NOTES.md \
+            "i大工_奶蛙版_3.3.12.apk" \
+            "theme/preview_sheet.jpg#动画帧预览.jpg" \
+            "theme/icons/ic_app_launcher.png#图标预览.png" 2>/dev/null || \
+          gh release upload "naiwa-v1.0" \
+            "i大工_奶蛙版_3.3.12.apk" \
+            "theme/preview_sheet.jpg#动画帧预览.jpg" \
+            "theme/icons/ic_app_launcher.png#图标预览.png" --clobber
