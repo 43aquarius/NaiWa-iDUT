@@ -18,9 +18,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: 43aquarius/NaiWa-iDUT
         run: |
-          keep="iDaGong_NaiWa_v2.0.apk animation-preview.jpg icon-preview.png"
-          for tag in naiwa-v1.0 naiwa-v2.0; do
-            ids=$(gh api "repos/$REPO/releases/tags/$tag" --jq '.assets[] | select(.name as $n | ["iDaGong_NaiWa_v2.0.apk","animation-preview.jpg","icon-preview.png"] | index($n) | not) | .id' 2>/dev/null || true)
+          keep="iDaGong_NaiWa_v3.0.apk preview-v3.png icon-preview.png"
+          for tag in naiwa-v3.0; do
+            ids=$(gh api "repos/$REPO/releases/tags/$tag" --jq '.assets[] | select(.name as $n | ["iDaGong_NaiWa_v3.0.apk","preview-v3.png","icon-preview.png"] | index($n) | not) | .id' 2>/dev/null || true)
             echo "[$tag] asset ids to delete: $ids"
             for id in $ids; do
               gh api -X DELETE "repos/$REPO/releases/assets/$id" && echo "deleted $id"
