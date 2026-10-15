@@ -61,7 +61,7 @@
 
     invoke-direct {v0, v1}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
-    const-string v1, "https://github.com/43aquaris/NaiWa-iDUT"
+    const-string v1, "https://github.com/43aquarius/NaiWa-iDUT"
 
     invoke-static {v1}, Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;
 
@@ -218,7 +218,7 @@
 
     invoke-direct {v2, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    const-string v3, "i大工 · 奶蛙主题二创版 v5.0"
+    const-string v3, "i大工 · 奶蛙主题二创版 v5.1"
 
     invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
@@ -337,7 +337,7 @@
 
     invoke-direct {v4, p0}, Landroid/widget/TextView;-><init>(Landroid/content/Context;)V
 
-    const-string v5, "github.com/43aquaris/NaiWa-iDUT"
+    const-string v5, "github.com/43aquarius/NaiWa-iDUT"
 
     invoke-virtual {v4, v5}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
 
